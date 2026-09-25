@@ -1,0 +1,14 @@
+guests,age,depositPaid,blocked,expected
+0,30,false,false,false
+1,30,false,false,true
+2,30,false,false,true
+7,30,false,false,true
+8,30,false,false,true
+9,30,false,false,false
+9,30,true,false,true
+11,30,true,false,true
+12,30,true,false,true
+13,30,true,false,false
+6,17,false,false,false
+6,18,false,false,true
+6,19,false,false,true

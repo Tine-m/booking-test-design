@@ -1,0 +1,11 @@
+guests,age,depositPaid,blocked,expected,reason
+0,30,false,false,false,"EP + BVA: lige under minimum for antal gæster"
+1,30,false,false,true,"BVA: minimum accepteres"
+8,30,false,false,true,"BVA + decision rule: 8 gæster kræver ikke depositum"
+9,30,false,false,false,"BVA + decision table: 9 gæster uden depositum afvises"
+9,30,true,false,true,"BVA + decision table: 9 gæster med depositum accepteres"
+12,30,true,false,true,"BVA: maksimum accepteres"
+13,30,true,false,false,"EP + BVA: lige over maksimum for antal gæster"
+6,17,false,false,false,"EP + BVA: lige under minimumsalder"
+6,18,false,false,true,"BVA: minimumsalder accepteres"
+6,30,false,true,false,"EP + decision table: blokeret kunde afvises"
