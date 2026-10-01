@@ -11,4 +11,9 @@ profile:
 
 projectJDK: "25"
 
+# quality gate på 60% dækningsgrad
+failureConditions:
+  testCoverageThresholds:
+    total: 60
+
 linter: jetbrains/qodana-jvm:2025.2
