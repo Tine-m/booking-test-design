@@ -44,7 +44,7 @@ jobs:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_1214363509 }}
           QODANA_ENDPOINT: 'https://qodana.cloud'
         with:
-          args: --coverage-dir .qodana/code-coverage
+          args: --coverage-dir=.qodana/code-coverage
           pr-mode: false
           use-caches: true
           post-pr-comment: true
