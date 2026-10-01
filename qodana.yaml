@@ -10,8 +10,8 @@ profile:
   name: qodana.recommended
 
 #Enable inspections
-#include:
-#  - name: <SomeEnabledInspectionId>
+include:
+  - name: OverlyComplexMethod
 
 #Disable inspections
 #exclude:
