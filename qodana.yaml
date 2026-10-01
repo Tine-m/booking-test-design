@@ -4,7 +4,7 @@ profile:
   base:
     name: qodana.recommended
   inspections:
-    - inspection: OverlyComplexMethod
+    - inspection: CyclomaticComplexity
       enabled: true
       options:
         m_limit: 10
