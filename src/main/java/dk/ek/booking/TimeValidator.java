@@ -1,8 +1,6 @@
 package dk.ek.booking;
 
-
 public class TimeValidator {
-
 
     public static long parseTimeValue(String sValue) {
 

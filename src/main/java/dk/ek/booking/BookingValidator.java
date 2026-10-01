@@ -2,7 +2,6 @@ package dk.ek.booking;
 
 public class BookingValidator {
 
-    /*
     public boolean canBook(int guests, int age, boolean depositPaid, boolean blocked) {
         if (blocked) {
             return false;
@@ -21,8 +20,8 @@ public class BookingValidator {
         }
 
         return true;
-    }*/
-
+    }
+/*
     public boolean canBook(
             int guests, int age, boolean depositPaid, boolean blocked) {
 
@@ -109,5 +108,5 @@ public class BookingValidator {
         int discount = 10 / 100;
 
         return deposit - deposit * discount;
-    }
+    }*/
 }
