@@ -5,6 +5,9 @@ profile:
 
 include:
   - name: OverlyComplexMethod
+    enabled: true
+    options:
+    m_limit: 10
 
 projectJDK: "25"
 
