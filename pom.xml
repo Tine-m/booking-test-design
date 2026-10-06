@@ -3,9 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              https://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>dk.ek</groupId>
     <artifactId>booking-test-design</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -15,6 +13,9 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.11.4</junit.version>
+
+        <!-- JaCoCo skriver agent-konfigurationen her -->
+        <jacoco.unit.argLine></jacoco.unit.argLine>
     </properties>
 
     <dependencies>
@@ -25,43 +26,38 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
-
             <!-- =====================================================
                  UNIT TESTS
-                 Surefire kører *Test.java i Maven test-fasen.
+                 Surefire kører *Test.java.
+                 JaCoCo-agenten tilknyttes KUN Surefire.
                  ===================================================== -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.5.2</version>
-
                 <configuration>
                     <includes>
                         <include>**/*Test.java</include>
                     </includes>
+                    <argLine>@{jacoco.unit.argLine}</argLine>
                 </configuration>
             </plugin>
-
-
             <!-- =====================================================
                  INTEGRATION TESTS
-                 Failsafe kører *IT.java i integration-test-fasen
-                 og kontrollerer resultatet i verify-fasen.
+                 Failsafe kører *IT.java.
+                 Ingen JaCoCo-agent tilknyttes.
                  ===================================================== -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>3.5.2</version>
-
                 <configuration>
                     <includes>
                         <include>**/*IT.java</include>
                     </includes>
                 </configuration>
-
                 <executions>
                     <execution>
                         <goals>
@@ -71,42 +67,40 @@
                     </execution>
                 </executions>
             </plugin>
-
-
             <!-- =====================================================
                  CODE COVERAGE
-                 JaCoCo måler kun unit tests.
-
-                 Rapporten genereres efter unit tests, men inden
-                 integrationstestene køres.
+                 JaCoCo konfigureres kun til unit tests.
                  ===================================================== -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.15</version>
-
                 <executions>
-
-                    <!-- Start JaCoCo agent før unit tests -->
+                    <!--
+                        Forbered JaCoCo-agenten.
+                        I stedet for standard-property'en argLine
+                        bruges jacoco.unit.argLine.
+                    -->
                     <execution>
                         <id>prepare-unit-test-agent</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
                         <configuration>
+                            <propertyName>
+                                jacoco.unit.argLine
+                            </propertyName>
                             <destFile>
                                 ${project.build.directory}/jacoco.exec
                             </destFile>
                         </configuration>
                     </execution>
-
                     <!--
-                        Lav coverage-rapport efter unit tests,
-                        men før integrationstestene.
+                        Generer coverage-rapporten.
                     -->
                     <execution>
                         <id>unit-test-coverage-report</id>
-                        <phase>prepare-package</phase>
+                        <phase>verify</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
@@ -116,11 +110,8 @@
                             </dataFile>
                         </configuration>
                     </execution>
-
                 </executions>
             </plugin>
-
         </plugins>
     </build>
-
 </project>
