@@ -86,11 +86,7 @@ public class BookingValidator {
         } else {
             return false;
         }
-    }
-
-    public boolean isVip(String customerType) {
-        // Fejl: sammenligner objektreferencer i stedet for tekstindhold.
-        return customerType == "VIP";
     } */
+
 
 }
