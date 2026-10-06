@@ -11,7 +11,7 @@ public class BookingValidator {
             return false;
         }
 
-        if (age < 18) {
+        if (age < 18 ) {
             return false;
         }
 
@@ -91,22 +91,6 @@ public class BookingValidator {
     public boolean isVip(String customerType) {
         // Fejl: sammenligner objektreferencer i stedet for tekstindhold.
         return customerType == "VIP";
-    }
+    } */
 
-    public String normalizeCustomerName(String customerName) {
-        // Fejl: derefererer null.
-        if (customerName == null) {
-            return customerName.trim();
-        }
-        return customerName.trim();
-    }
-
-    public int calculateDeposit(int guests) {
-        int deposit = guests * 100;
-
-        // Fejl: heltalsdivision giver altid 0.
-        int discount = 10 / 100;
-
-        return deposit - deposit * discount;
-    }*/
 }

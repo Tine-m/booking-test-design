@@ -1,0 +1,105 @@
+name: Qodana
+
+on:
+  workflow_dispatch:
+
+  pull_request:
+    branches:
+      - main
+
+  push:
+    branches:
+      - main
+
+jobs:
+
+  qodana:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: write
+
+    steps:
+
+      # ---------------------------------------------------------
+      # Checkout
+      # ---------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+
+      # ---------------------------------------------------------
+      # Java / Maven
+      # ---------------------------------------------------------
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+
+      # ---------------------------------------------------------
+      # BUILD + TEST
+      #
+      # mvn verify:
+      # - compiles
+      # - runs unit tests with Surefire
+      # - generates JaCoCo unit-test coverage
+      # - runs integration tests with Failsafe
+      #
+      # The step fails if any test fails.
+      # ---------------------------------------------------------
+      - name: Build and run tests
+        run: mvn -B -ntp clean verify
+
+
+      # ---------------------------------------------------------
+      # Prepare JaCoCo coverage for Qodana
+      # ---------------------------------------------------------
+      - name: Prepare coverage for Qodana
+        run: |
+          mkdir -p .qodana/code-coverage
+          cp target/site/jacoco/jacoco.xml .qodana/code-coverage/jacoco.xml
+
+
+      # ---------------------------------------------------------
+      # Qodana
+      # ---------------------------------------------------------
+      - name: Qodana Scan
+        uses: JetBrains/qodana-action@v2025.2
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_1214363509 }}
+          QODANA_ENDPOINT: 'https://qodana.cloud'
+
+        with:
+          args: --coverage-dir=.qodana/code-coverage
+          pr-mode: false
+          use-caches: true
+          post-pr-comment: true
+          use-annotations: true
+          upload-result: true
+          push-fixes: 'none'
+
+
+      # ---------------------------------------------------------
+      # Reports
+      #
+      # always() means reports are uploaded even if an earlier
+      # test or quality check fails.
+      # ---------------------------------------------------------
+      - name: Upload test and coverage reports
+        if: always()
+        uses: actions/upload-artifact@v4
+
+        with:
+          name: test-and-coverage-reports
+          path: |
+            target/surefire-reports/
+            target/failsafe-reports/
+            target/site/jacoco/
+          if-no-files-found: warn
